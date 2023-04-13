@@ -1,0 +1,25 @@
+train: mini-imagenet
+train_args: {mode: train}
+test: mini-imagenet
+test_args: {mode: test}
+val: mini-imagenet
+val_args: {mode: val}
+
+model: protonet
+model_args:
+  encoder: resnet12
+  method: sqr
+
+n_way: 5
+n_support: 10
+n_query: 5
+n_batch: 200
+n_episodes: 2
+
+max_epoch: 100
+optimizer: adam
+optimizer_args: {lr: 0.001, weight_decay: 5.e-4, scheduler: step}
+
+visualize_datasets: True 
+
+# load: ./logs/protonet_mini-imagenet_5way_5shot/best_model.pth

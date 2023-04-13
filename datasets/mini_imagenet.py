@@ -4,7 +4,9 @@ import pickle
 from PIL import Image
 from torch.utils.data import Dataset
 from torchvision import transforms
+from .make_datasets import register_dataset
 
+@register_dataset('mini-imagenet')
 class MiniImageNet(Dataset):
     def __init__(self, root, mode='train', transform=None):
         split_tag = mode
@@ -15,11 +17,12 @@ class MiniImageNet(Dataset):
         with open(os.path.join(root, split_file), 'rb') as f:
             tmp = pickle.load(f, encoding='latin1')
         image = tmp['data']
-        label = tmp['label']
+        label = tmp['labels']
 
         image_size = 80 
         image = [Image.fromarray(x) for x in image]
         
+        # generate labels 
         min_label = min(label)
         label = [x - min_label for x in label]
 
@@ -47,8 +50,8 @@ class MiniImageNet(Dataset):
         return len(self.image)
 
     def __getitem__(self, idx):
-        image = self.image[i]
-        label = self.label[i]
+        image = self.image[idx]
+        label = self.label[idx]
         image = self.transform(image)
         return image, label 
         

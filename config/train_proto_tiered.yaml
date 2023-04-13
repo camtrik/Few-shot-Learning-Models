@@ -1,0 +1,25 @@
+train: tiered-imagenet
+train_args: {mode: train}
+test: tiered-imagenet
+test_args: {mode: test}
+val: tiered-imagenet
+val_args: {mode: val}
+
+model: protonet
+model_args:
+  encoder: resnet12
+  method: sqr
+
+n_way: 5
+n_support: 15
+n_query: 5
+n_batch: 200
+n_episodes: 2
+
+max_epoch: 100
+optimizer: sgd 
+optimizer_args: {lr: 0.001, weight_decay: 5.e-4, scheduler: step}
+
+visualize_datasets: True 
+
+# load: ./logs/protonet_tiered-imagenet_5way_5shot/best_model.pth

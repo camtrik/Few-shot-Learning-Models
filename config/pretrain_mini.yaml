@@ -1,0 +1,19 @@
+train: mini-imagenet
+train_args: {mode: train}
+val: mini-imagenet
+val_args: {mode: train_phase_val}
+fs: mini-imagenet
+fs_args: {mode: test}
+eval_fs_epoch: 5
+
+model: classifier
+model_args:
+    encoder: resnet12
+    encoder_args: {}
+    classifier: linear-classifier 
+    classifier_args: {n_classes: 64}
+
+batch_size: 64
+max_epoch: 100
+optimizer: sgd
+optimizer_args: {lr: 0.1, weight_decay: 5.e-4, scheduler: step}

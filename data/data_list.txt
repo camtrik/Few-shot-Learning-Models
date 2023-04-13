@@ -1,0 +1,3 @@
+miniImageNet
+tieredImageNet
+CUB-200

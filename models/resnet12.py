@@ -1,6 +1,6 @@
 import torch 
 import torch.nn as nn 
-from .make_models import register 
+from .make_models import register_model
 
 class ResidualBlock(nn.Module):
     def __init__(self, in_channels, out_channels, stride=1):
@@ -42,10 +42,10 @@ class ResidualBlock(nn.Module):
         return out
 
 class ResNet12(nn.Module):
-    def __init__(self, channels):
+    def __init__(self, channels, flatten=True):
         super(ResNet12, self).__init__()
         self.in_channels = 3
-
+        self.flatten = flatten
         # 4 * 3 conv, 12 layers
         self.layer1 = self.make_layers(channels[0])
         self.layer2 = self.make_layers(channels[1])
@@ -74,10 +74,15 @@ class ResNet12(nn.Module):
         out = self.layer3(out)
         out = self.layer4(out)
         # (B, C, H, W) -> (B, C, H * W), then compute mean of dim=2
-        out = out.view(out.shape[0], out.shape[1], -1).mean(dim=2)
+        if self.flatten:
+           out = out.view(out.shape[0], out.shape[1], -1).mean(dim=2)
 
         return out
 
-@register('resnet12')
+@register_model('resnet12')
 def resnet12():
     return ResNet12([64, 128, 256, 512])
+
+@register_model('resnet12_square')
+def resnet12_square():
+    return ResNet12([64, 128, 256, 512], flatten=False)

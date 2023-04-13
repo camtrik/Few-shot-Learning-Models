@@ -1,0 +1,8 @@
+dataset: mini-imagenet
+dataset_args: {mode: test}
+model: protonet
+model_args:
+  encoder: resnet12
+  method: sqr
+
+load: ./logs/protonet_mini-imagenet_5way_10shot/best_model.pth
